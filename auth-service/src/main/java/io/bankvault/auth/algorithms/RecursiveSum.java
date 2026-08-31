@@ -1,22 +1,23 @@
-package io.bankvault.auth.collections;
+package io.bankvault.auth.algorithms;
 
 public class RecursiveSum {
 
     public int sum(int[] nums, int index) {
-
-
-        if(nums.length==0){
+        if (index == nums.length) {     // base case: walked off the end
             return 0;
         }
-        if(nums.length==1){
-            return nums[0];
+        return nums[index] + sum(nums, index + 1);
+    }
+
+
+    public int countChar(String s, char target) {
+
+        int count = 0;
+        if(s.length()==count){
+            return 0;
         }
 
-     //   return 1;//sum(nums[index], index+1);
-
-//        if(index==nums.length){
-//            return 1;
-//        }
+//return
 
         return 0;
     }

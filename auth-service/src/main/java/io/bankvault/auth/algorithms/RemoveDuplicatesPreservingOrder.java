@@ -1,6 +1,4 @@
-package io.bankvault.auth.collections;
-
-import java.util.*;
+package io.bankvault.auth.algorithms;
 
 public class RemoveDuplicatesPreservingOrder {
 

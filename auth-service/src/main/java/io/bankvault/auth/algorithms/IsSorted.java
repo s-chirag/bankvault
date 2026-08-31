@@ -1,4 +1,4 @@
-package io.bankvault.auth.collections;
+package io.bankvault.auth.algorithms;
 
 public class IsSorted {
 
