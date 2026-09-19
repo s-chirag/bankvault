@@ -69,9 +69,9 @@ public class FlightsPractice {
          System.out.println("7:  " + getFlightsByAirlineThenPriceDesc());
          System.out.println("8:  " + getSecondAndThirdMostExpensive());
          System.out.println("9:  " + getMorningFlightSummaries());
-        // System.out.println("10: " + getBudgetRunFromCheapest());
-        // System.out.println("11: " + getLongestFlightFromBlr());
-        // System.out.println("12: " + countDistinctRoutes());
+         System.out.println("10: " + getBudgetRunFromCheapest());
+         System.out.println("11: " + getLongestFlightFromBlr());
+         System.out.println("12: " + countDistinctRoutes());
     }
 
     /**
@@ -260,8 +260,19 @@ public class FlightsPractice {
      *
      * Expected: [SG-606, 6E-404, SG-313, SG-010, AI-505, 6E-202]
      */
+
+    static Predicate<Flight> under5k = f -> f.priceInr()<5000;
+
     static List<String> getBudgetRunFromCheapest() {
-        return null;
+
+
+        return flights.stream()
+                .sorted(Comparator.comparing(Flight::priceInr))
+                .takeWhile(under5k)
+                .map(Flight::flightNo)
+                .collect(Collectors.toList());
+
+
     }
 
     /**
@@ -272,7 +283,12 @@ public class FlightsPractice {
      * Expected: 6E-808 (320 min)
      */
     static String getLongestFlightFromBlr() {
-        return null;
+        return flights.stream()
+                .filter( f -> f.from().equals("BLR"))
+                .max(Comparator.comparingInt(Flight::durationMin))
+                .map(f -> f.flightNo() +" ("+f.durationMin() +" min)")
+                .orElse("NONE");
+
     }
 
     /**
@@ -285,6 +301,11 @@ public class FlightsPractice {
      * Expected: 6
      */
     static long countDistinctRoutes() {
-        return 0;
+
+        return flights.stream()
+                .map(f -> f.from()+"-"+f.to())
+                .distinct()
+                .count();
+
     }
 }
