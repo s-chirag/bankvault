@@ -2,6 +2,8 @@ package functional.programming;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.*;
 /**
@@ -36,21 +38,31 @@ public class StreamsPractice {
     public static void main(String[] args) {
         // Uncomment each line as you solve the method
 
-         System.out.println("1: " + getNamesOfAllEmployees());
-         System.out.println("2: " + getEmployeesInEngineering());
-         System.out.println("3: " + getTotalSalaryBill());
-         System.out.println("4: " + getUniqueEmployeeNames());
-         System.out.println("5: " + getEmployeesSortedBySalaryDesc());
-         System.out.println("6: " + getHighSalaryEmployeeNames());
-         System.out.println("7: " + getTotalSalaryOfEngineering());
-         System.out.println("8: " + getAverageSalary());
-         System.out.println("9: " + getNameAndSalaryStrings());
-         System.out.println("10: " + getEmployeesSortedByDeptThenSalaryDesc());
-  //       System.out.println("11: " + getHighestPaidEmployee());
-         System.out.println("12: " + getDistinctCities());
-//        System.out.println("13a: " + areAllWellPaid());
-        System.out.println("13b: " + hasAnyoneOverForty());
-        System.out.println("15: " + salarySUmOfbangalore());
+//         System.out.println("1: " + getNamesOfAllEmployees());
+//         System.out.println("2: " + getEmployeesInEngineering());
+//         System.out.println("3: " + getTotalSalaryBill());
+//         System.out.println("4: " + getUniqueEmployeeNames());
+//         System.out.println("5: " + getEmployeesSortedBySalaryDesc());
+//         System.out.println("6: " + getHighSalaryEmployeeNames());
+//         System.out.println("7: " + getTotalSalaryOfEngineering());
+//         System.out.println("8: " + getAverageSalary());
+//         System.out.println("9: " + getNameAndSalaryStrings());
+//         System.out.println("10: " + getEmployeesSortedByDeptThenSalaryDesc());
+//  //       System.out.println("11: " + getHighestPaidEmployee());
+//         System.out.println("12: " + getDistinctCities());
+////        System.out.println("13a: " + areAllWellPaid());
+//        System.out.println("13b: " + hasAnyoneOverForty());
+//        System.out.println("15: " + salarySUmOfbangalore());
+        System.out.println("15: " + empDSal());
+        System.out.println("16: " + employeesInEachDepartment());
+        System.out.println("17: " + avgSalaryPerDepartment());
+        System.out.println("18: " + sorted());
+        System.out.println("18: " + highestSalary());
+
+
+
+
+
 
     }
 
@@ -266,4 +278,47 @@ public class StreamsPractice {
 
 
     }
+    static Predicate<Employee> salHigerThan60 = employee -> employee.salary >60000;
+
+    static List<String> empDSal() {
+
+        return employees.stream()
+                .filter(salHigerThan60)
+                .map(Employee::name)
+                .collect(Collectors.toList());
+
+    }
+    static Map<String, Long> employeesInEachDepartment() {
+
+        return employees.stream()
+                .collect(Collectors.groupingBy(Employee::department, Collectors.counting()));
+
+    }
+
+    static Map<String, Double> avgSalaryPerDepartment() {
+
+        return employees.stream()
+                .collect(Collectors.groupingBy(Employee::department, Collectors.averagingDouble(Employee::salary)));
+
+    }
+
+    static List<Employee> sorted() {
+
+        return employees.stream()
+                .sorted(Comparator.comparing(Employee::department).thenComparing(Comparator.comparingInt(Employee::salary).reversed()))
+                .collect(Collectors.toList());
+
+    }
+
+    static Predicate<Employee> enggDepartment = emp -> emp.department.equals("Engineering");
+    static String highestSalary(){
+        return employees.stream()
+                .filter(enggDepartment)
+                .sorted(Comparator.comparing(Employee::salary).reversed())
+                .map(Employee::name)
+                .findFirst()
+                .orElse("NONE");
+
+    }
+
 }

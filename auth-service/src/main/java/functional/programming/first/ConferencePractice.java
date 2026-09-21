@@ -1,4 +1,4 @@
-package java.functional;
+package functional.programming.first;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,9 +50,9 @@ public class ConferencePractice {
     );
 
     public static void main(String[] args) {
-        // System.out.println("S1:  " + getTopSessionPerTrack());
+  //       System.out.println("S1:  " + getTopSessionPerTrack());
         // System.out.println("S2:  " + getTitlesByTrackThenCompany());
-        // System.out.println("S3:  " + getTagFrequency());
+         System.out.println("S3:  " + getTagFrequency());
         // System.out.println("S4:  " + getTitlesByTrackThenRatingDesc());
         // System.out.println("S5:  " + getImmutableTitlesByTrack());
         // System.out.println("S6a: " + getBestSessionInTrack("Java"));
@@ -75,7 +75,11 @@ public class ConferencePractice {
      *            Architecture=Distributed Tracing, API=API Gateway Patterns}
      */
     static Map<String, String> getTopSessionPerTrack() {
-        return null;
+
+            return sessions.stream()
+                //    .sorted(Comparator.comparing(Session::rating).reversed())
+                    .collect(Collectors.toMap(
+                            Session::track,Session::title));
     }
 
     /**
@@ -97,7 +101,9 @@ public class ConferencePractice {
      *                    kafka=2, streaming=2, scale=2, and many at 1
      */
     static Map<String, Long> getTagFrequency() {
-        return null;
+        return sessions.stream()
+                .flatMap(s -> s.tags.stream())
+                .collect(Collectors.groupingBy(tag -> tag, Collectors.counting()));
     }
 
     /**
